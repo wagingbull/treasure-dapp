@@ -20,6 +20,7 @@ import {
 import { mainnet } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { useState, useEffect } from 'react';
+import { MantineProvider } from '@mantine/core';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
@@ -51,7 +52,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         modalSize="compact"
         chains={chains}
       >
-        <Component {...pageProps} />
+        <MantineProvider theme={{ colorScheme: 'dark' }}>
+          <Component {...pageProps} />
+        </MantineProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

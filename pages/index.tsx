@@ -2,6 +2,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import { AccountForm } from '../components/form';
 
 const Home: NextPage = () => {
   return (
@@ -17,9 +18,7 @@ const Home: NextPage = () => {
 
         <h1 className={styles.title}>Cryptopunks Viewer Dapp</h1>
 
-        <p className={styles.description}>
-          View a wallet&apos;s Cryptopunks inventory
-        </p>
+        <AccountForm />
 
         <div className={styles.grid}>
           <a className={styles.card} href="#">
