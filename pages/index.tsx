@@ -18,7 +18,7 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>Cryptopunks Viewer Dapp</h1>
 
         <p className={styles.description}>
-          View a wallet's Cryptopunks inventory
+          View a wallet&apos;s Cryptopunks inventory
         </p>
 
         <div className={styles.grid}>
