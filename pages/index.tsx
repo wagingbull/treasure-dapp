@@ -3,8 +3,21 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { AccountForm } from '../components/account-form';
+import { useAccount } from 'wagmi';
+import { useState } from 'react';
+import { Center } from '@mantine/core';
 
 const Home: NextPage = () => {
+  const [isFormVisible, setIsFormVisible] = useState(true);
+  const { address } = useAccount({
+    onConnect() {
+      setIsFormVisible(false);
+    },
+    onDisconnect() {
+      setIsFormVisible(true);
+    },
+  });
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,11 +27,19 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <ConnectButton showBalance={false} />
-
         <h1 className={styles.title}>Cryptopunks Viewer Dapp</h1>
 
-        <AccountForm />
+        <ConnectButton showBalance={false} />
+        {!isFormVisible && <div>{address}</div>}
+
+        {isFormVisible && (
+          <div>
+            <Center mx="auto">
+              <h3>- OR -</h3>
+            </Center>
+            <AccountForm />
+          </div>
+        )}
 
         <div className={styles.grid}>
           <a className={styles.card} href="#">

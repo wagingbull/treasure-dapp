@@ -52,7 +52,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         modalSize="compact"
         chains={chains}
       >
-        <MantineProvider theme={{ colorScheme: 'dark' }}>
+        <MantineProvider
+          theme={{
+            colorScheme: 'dark',
+            primaryColor: 'violet',
+          }}
+        >
           <Component {...pageProps} />
         </MantineProvider>
       </RainbowKitProvider>
