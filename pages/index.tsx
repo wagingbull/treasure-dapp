@@ -41,7 +41,14 @@ const Home: NextPage = () => {
         </div>
       </main>
 
-      <footer className={styles.footer}>Footer text</footer>
+      <footer className={styles.footer}>
+        <p>
+          Created by{' '}
+          <a href="https://linktr.ee/wagingbull" target="_new">
+            wagingbull
+          </a>
+        </p>
+      </footer>
     </div>
   );
 };

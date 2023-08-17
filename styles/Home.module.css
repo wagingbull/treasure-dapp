@@ -22,10 +22,15 @@
 }
 
 .footer a {
-  display: flex;
+  color: #7A70FF;
+  display: inline;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+}
+
+.footer a:hover {
+  color: white;
 }
 
 .title a {
