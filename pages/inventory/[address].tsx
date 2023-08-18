@@ -78,7 +78,7 @@ const InventoryPage: NextPage = () => {
         <p>{loadingMessage}</p>
       ) : (
         <>
-          {punks.length === 0 ? (
+          {punks && punks.length === 0 ? (
             <p>{emptyMessage}</p>
           ) : (
             <Grid gutter="lg">
