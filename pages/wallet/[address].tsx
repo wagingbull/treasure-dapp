@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import client from '../../lib/client';
+import styles from '../../styles/Home.module.css';
 
 interface CryptoPunk {
   tokenId: string;
@@ -49,7 +50,7 @@ const InventoryPage: NextPage = () => {
   }, [walletId]);
 
   return (
-    <div>
+    <div className={styles.grid}>
       {loading ? (
         <p>Loading Cryptopunks...</p>
       ) : punks.length === 0 ? (
@@ -57,7 +58,11 @@ const InventoryPage: NextPage = () => {
       ) : (
         <div>
           {punks.map(punk => (
-            <Link key={punk.tokenId} href={`/detail/${punk.tokenId}`}>
+            <Link
+              key={punk.tokenId}
+              href={`/detail/${punk.tokenId}`}
+              className={styles.card}
+            >
               <div style={{ width: 150 }}>
                 <div
                   dangerouslySetInnerHTML={{

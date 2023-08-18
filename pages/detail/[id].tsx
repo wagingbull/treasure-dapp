@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useContractRead } from 'wagmi';
 import cryptopunksData from '../../public/abis/cryptopunks.json';
+import styles from '../../styles/Home.module.css';
 
 interface DetailPageProps {
   detailId: number;
@@ -45,7 +46,7 @@ const DetailPage: NextPage<DetailPageProps> = () => {
       : '';
 
   return (
-    <div>
+    <div className={styles.grid}>
       {isSvgLoading || isAttributeLoading ? (
         <div>Loading cryptopunks data...</div>
       ) : (
@@ -67,8 +68,8 @@ const DetailPage: NextPage<DetailPageProps> = () => {
             ''
           )}
 
-          <div>
-            <h2>Attributes:</h2>
+          <div className={styles.card}>
+            <h2>Cryptopunk {detailId} Attributes:</h2>
             {renderedAttributes}
           </div>
         </>

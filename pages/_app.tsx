@@ -21,6 +21,7 @@ import { mainnet } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { useState, useEffect } from 'react';
 import { MantineProvider } from '@mantine/core';
+import { Header } from '../components/Header';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
@@ -58,6 +59,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             primaryColor: 'violet',
           }}
         >
+          <Header />
           <Component {...pageProps} />
         </MantineProvider>
       </RainbowKitProvider>

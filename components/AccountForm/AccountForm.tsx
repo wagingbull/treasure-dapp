@@ -13,13 +13,12 @@ interface AccountFormProps {
 export function AccountForm({ title, onSubmit }: AccountFormProps) {
   const form = useForm({
     initialValues: {
-      address: '',
+      address: '0x0000000000000000000000000000000000000001',
     },
 
     validate: {
       address: value => {
         const isValidETHAddress = /^(0x)?[0-9a-fA-F]{40}$/.test(value);
-
         return isValidETHAddress ? null : 'Invalid Ethereum address';
       },
     },
@@ -30,7 +29,7 @@ export function AccountForm({ title, onSubmit }: AccountFormProps) {
   };
 
   return (
-    <Box mx="auto">
+    <Box mb="xl">
       <p>{title}</p>
       <form onSubmit={form.onSubmit(onSubmitHandler)}>
         <TextInput
@@ -40,7 +39,7 @@ export function AccountForm({ title, onSubmit }: AccountFormProps) {
         />
 
         <Group position="right" mt="md">
-          <Button type="submit">Submit</Button>
+          <Button type="submit">View Cryptopunks</Button>
         </Group>
       </form>
     </Box>
