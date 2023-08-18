@@ -38,7 +38,9 @@ export default async function handler(
       typeof req.query.address === 'string' ? req.query.address : '';
 
     // Construct the full URL
-    const apiUrl = `https://${req.headers.host}/api/inventory/${address}`;
+    const baseUrl = process.env.NEXT_PUBLIC_CRYPTOPUNKS_API_URL;
+    const endpoint = `/api/inventory/${address}`;
+    const apiUrl = `${baseUrl}${endpoint}`;
 
     // Fetch data from the GraphQL client
     const data = await client.getInventory({ address: apiUrl });
@@ -46,7 +48,7 @@ export default async function handler(
 
     res.status(200).json(data);
   } catch (error) {
-    console.error('Error fetching inventory:', error);
+    console.error('Error fetching inventory; using fallback data', error);
 
     res.status(500).json(fallbackData);
   }
