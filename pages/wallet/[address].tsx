@@ -32,7 +32,7 @@ const InventoryPage: NextPage = () => {
   const router = useRouter();
   const walletId = router.query.address as string | undefined;
   const loadingMessage = 'Loading Cryptopunks...';
-  const emptyMessage = `No Cryptopunks available for wallet: ${walletId}.`;
+  const emptyMessage = `Error fetching Cryptopunks for wallet: ${walletId}.`;
   const titleMessage = `Cryptopunks Inventory for ${walletId}:`;
   const filteredEmptyMessage = 'All Cryptopunks are hidden by filters.';
 
@@ -51,12 +51,18 @@ const InventoryPage: NextPage = () => {
       address: walletId,
     };
 
-    // @ts-ignore GetInventoryResponse type
-    client.getInventory(query).then((data: GetInventoryResponse) => {
-      setPunks(data.punks);
-      setFilteredPunks(data.punks);
-      setLoading(false);
-    });
+    client
+      .getInventory(query)
+      // @ts-ignore GetInventoryResponse type
+      .then((data: GetInventoryResponse) => {
+        setPunks(data.punks);
+        setFilteredPunks(data.punks);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log('Error fetching inventory:', error);
+        setLoading(false);
+      });
   }, [walletId]);
 
   useEffect(() => {
