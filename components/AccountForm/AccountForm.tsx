@@ -7,9 +7,10 @@ interface FormValues {
 
 interface AccountFormProps {
   title: string;
+  onSubmit: Function;
 }
 
-export function AccountForm({ title }: AccountFormProps) {
+export function AccountForm({ title, onSubmit }: AccountFormProps) {
   const form = useForm({
     initialValues: {
       address: '',
@@ -28,7 +29,7 @@ export function AccountForm({ title }: AccountFormProps) {
   });
 
   const onSubmitHandler = async (values: FormValues) => {
-    console.log(values);
+    onSubmit(values);
   };
 
   return (

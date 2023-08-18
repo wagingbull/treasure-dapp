@@ -1,26 +1,14 @@
 import gql from "graphql-tag";
 
-export const getCollection = gql`
-  query getCollection {
-    accounts(first: 5) {
-      id
-      punksOwned {
-        id
-      }
-      bought {
-        id
-      }
-    }
-    punks(first: 5) {
-      id
-      transferedTo {
-        id
-      }
-      assignedTo {
-        id
-      }
-      purchasedBy {
-        id
+export const getInventory = gql`
+  query getInventory($address: String!) {
+    punks(where: { owner: $address }) {
+      tokenId
+      metadata {
+        svg
+        traits {
+          id
+        }
       }
     }
   }

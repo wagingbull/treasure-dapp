@@ -1,7 +1,7 @@
 overwrite: true
 generates:
   ./generated/app.generated.ts:
-    schema: ${CRYPTOPUNKS_API_URL}
+    schema: ${NEXT_PUBLIC_CRYPTOPUNKS_API_URL}
     documents: './graphql/app.queries.ts'
     plugins:
       - 'typescript'

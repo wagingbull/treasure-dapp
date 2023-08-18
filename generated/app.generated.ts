@@ -5577,33 +5577,23 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
-export type GetCollectionQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetInventoryQueryVariables = Exact<{
+  address: Scalars['String'];
+}>;
 
 
-export type GetCollectionQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: any, punksOwned?: Array<{ __typename?: 'Punk', id: string }> | null, bought: Array<{ __typename?: 'Sale', id: string }> }>, punks: Array<{ __typename?: 'Punk', id: string, transferedTo?: { __typename?: 'Account', id: any } | null, assignedTo?: { __typename?: 'Account', id: any } | null, purchasedBy?: { __typename?: 'Account', id: any } | null }> };
+export type GetInventoryQuery = { __typename?: 'Query', punks: Array<{ __typename?: 'Punk', tokenId: any, metadata?: { __typename?: 'MetaData', svg?: string | null, traits: Array<{ __typename?: 'Trait', id: string }> } | null }> };
 
 
-export const GetCollectionDocument = gql`
-    query getCollection {
-  accounts(first: 5) {
-    id
-    punksOwned {
-      id
-    }
-    bought {
-      id
-    }
-  }
-  punks(first: 5) {
-    id
-    transferedTo {
-      id
-    }
-    assignedTo {
-      id
-    }
-    purchasedBy {
-      id
+export const GetInventoryDocument = gql`
+    query getInventory($address: String!) {
+  punks(where: {owner: $address}) {
+    tokenId
+    metadata {
+      svg
+      traits {
+        id
+      }
     }
   }
 }
@@ -5616,8 +5606,8 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    getCollection(variables?: GetCollectionQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCollectionQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCollectionQuery>(GetCollectionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCollection', 'query');
+    getInventory(variables: GetInventoryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetInventoryQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetInventoryQuery>(GetInventoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getInventory', 'query');
     }
   };
 }

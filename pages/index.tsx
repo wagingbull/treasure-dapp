@@ -7,12 +7,21 @@ import { useAccount } from 'wagmi';
 import { useState } from 'react';
 import { Center } from '@mantine/core';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const HomePage: NextPage = () => {
+  const router = useRouter();
   const { address, isConnected } = useAccount({
-    onConnect() {},
+    onConnect() {
+      // router.push(`/${address}`);
+      console.log('connected', address);
+    },
     onDisconnect() {},
   });
+
+  const handleSubmit = values => {
+    router.push(`/${values.address}`);
+  };
 
   return (
     <div className={styles.container}>
@@ -33,7 +42,10 @@ const HomePage: NextPage = () => {
             <Center mx="auto">
               <h3>- OR -</h3>
             </Center>
-            <AccountForm title="Enter wallet address to view Cryptopunks inventory" />
+            <AccountForm
+              title="Enter wallet address to view Cryptopunks inventory"
+              onSubmit={handleSubmit}
+            />
           </div>
         )}
 
