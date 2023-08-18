@@ -12,7 +12,7 @@ import { publicProvider } from 'wagmi/providers/public';
 import { MantineProvider } from '@mantine/core';
 import { Header } from '../components/Header';
 import { AnimatePresence } from 'framer-motion';
-import FadeInAnimation from '../components/FadeInAnimation/FadeInAnimation';
+import { FadeInAnimation } from '../components/FadeInAnimation';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { motion } from 'framer-motion';
 
 interface FadeInAnimationProps {
@@ -10,7 +10,7 @@ const fadeInVariants = {
   visible: { opacity: 1 },
 };
 
-const FadeInAnimation: FC<FadeInAnimationProps> = ({ children }) => {
+export const FadeInAnimation: FC<FadeInAnimationProps> = ({ children }) => {
   return (
     <motion.div
       initial="hidden"
