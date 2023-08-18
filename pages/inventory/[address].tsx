@@ -76,55 +76,59 @@ const InventoryPage: NextPage = () => {
     <Container size="xs" px="xs">
       {loading ? (
         <p>{loadingMessage}</p>
-      ) : punks.length === 0 ? (
-        <p>{emptyMessage}</p>
       ) : (
-        <Grid gutter="lg">
-          <div>
-            <Button
-              onClick={() => handleFilterChange('all')}
-              variant={selectedFilter === 'all' ? 'outline' : 'light'}
-            >
-              All
-            </Button>
-            <Button
-              onClick={() => handleFilterChange('male')}
-              variant={selectedFilter === 'male' ? 'outline' : 'light'}
-            >
-              Male
-            </Button>
-            <Button
-              onClick={() => handleFilterChange('female')}
-              variant={selectedFilter === 'female' ? 'outline' : 'light'}
-            >
-              Female
-            </Button>
-            <p>{filteredPunks.length === 0 ? filteredEmptyMessage : ''}</p>
-          </div>
+        <>
+          {punks.length === 0 ? (
+            <p>{emptyMessage}</p>
+          ) : (
+            <Grid gutter="lg">
+              <div>
+                <Button
+                  onClick={() => handleFilterChange('all')}
+                  variant={selectedFilter === 'all' ? 'outline' : 'light'}
+                >
+                  All
+                </Button>
+                <Button
+                  onClick={() => handleFilterChange('male')}
+                  variant={selectedFilter === 'male' ? 'outline' : 'light'}
+                >
+                  Male
+                </Button>
+                <Button
+                  onClick={() => handleFilterChange('female')}
+                  variant={selectedFilter === 'female' ? 'outline' : 'light'}
+                >
+                  Female
+                </Button>
+                <p>{filteredPunks.length === 0 ? filteredEmptyMessage : ''}</p>
+              </div>
 
-          <h2>{titleMessage}</h2>
+              <h2>{titleMessage}</h2>
 
-          {filteredPunks.map(punk => (
-            <div key={punk.tokenId}>
-              <Link href={`/detail/${punk.tokenId}`}>
-                <Card mx="xl">
-                  <div
-                    style={{ width: 150 }}
-                    dangerouslySetInnerHTML={{
-                      __html: punk.metadata.svg.replace(
-                        'data:image/svg+xml;utf8,',
-                        ''
-                      ),
-                    }}
-                  />
-                  {punk.metadata.traits.map(trait => (
-                    <div key={trait.id}>{trait.id}</div>
-                  ))}
-                </Card>
-              </Link>
-            </div>
-          ))}
-        </Grid>
+              {filteredPunks.map(punk => (
+                <div key={punk.tokenId}>
+                  <Link href={`/detail/${punk.tokenId}`}>
+                    <Card mx="xl">
+                      <div
+                        style={{ width: 150 }}
+                        dangerouslySetInnerHTML={{
+                          __html: punk.metadata.svg.replace(
+                            'data:image/svg+xml;utf8,',
+                            ''
+                          ),
+                        }}
+                      />
+                      {punk.metadata.traits.map(trait => (
+                        <div key={trait.id}>{trait.id}</div>
+                      ))}
+                    </Card>
+                  </Link>
+                </div>
+              ))}
+            </Grid>
+          )}
+        </>
       )}
     </Container>
   );
