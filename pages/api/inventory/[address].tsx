@@ -9,12 +9,18 @@ export default async function handler(
   }
 ) {
   try {
+    console.log('Received request with address:', req.query.address);
+
     const data = await client.getInventory({ address: req.query.address });
-    console.log('try data', data);
+
+    console.log('Data fetched from API:', data);
+
     res.status(200).json(data);
   } catch (error) {
-    console.log('try error', error);
     console.error('Error fetching inventory:', error);
-    res.status(500).json(error);
+
+    res
+      .status(500)
+      .json({ error: 'An error occurred while fetching inventory' });
   }
 }
