@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useContractRead } from 'wagmi';
 import cryptopunksData from '../../public/abis/cryptopunks.json';
 import { Card, Container } from '@mantine/core';
+import { useEffect } from 'react';
 
 interface DetailPageProps {
   detailId: number;
@@ -13,8 +14,6 @@ const DetailPage: NextPage<DetailPageProps> = () => {
   const detailId = Number(router.query.id);
   const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
   const loadingMessage = 'Loading Cryptopunk attributes...';
-  const svgErrorMessage = `Error loading SVG data for Cryptopunk ID: ${detailId}`;
-  const attributesErrorMessage = `Error loading attribute data for Cryptopunk ID: ${detailId}`;
   const titleMessage = `Cryptopunk ${detailId} Attributes:`;
 
   const {
@@ -51,30 +50,22 @@ const DetailPage: NextPage<DetailPageProps> = () => {
 
   return (
     <Container size="xs" px="xs">
-      {isSvgLoading || isAttributeLoading ? (
-        <div>{loadingMessage}</div>
-      ) : (
-        <>
-          {isSvgError && <div>{svgErrorMessage}</div>}
-          {isAttributeError && <div>{attributesErrorMessage}</div>}
-          {!isAttributeError ||
-            (!isSvgError && (
-              <Card>
-                {svgHtml ? (
-                  <div
-                    style={{ width: 250 }}
-                    dangerouslySetInnerHTML={{ __html: svgHtml }}
-                  />
-                ) : (
-                  ''
-                )}
+      {(isSvgLoading || isAttributeLoading) && <div>{loadingMessage}</div>}
 
-                <h2>{titleMessage}</h2>
-                {renderedAttributes}
-              </Card>
-            ))}
-        </>
-      )}
+      {!isSvgLoading &&
+        !isAttributeLoading &&
+        !isSvgError &&
+        !isAttributeError && (
+          <Card>
+            <div
+              style={{ width: 250 }}
+              dangerouslySetInnerHTML={{ __html: svgHtml }}
+            />
+
+            <h2>{titleMessage}</h2>
+            {renderedAttributes}
+          </Card>
+        )}
     </Container>
   );
 };

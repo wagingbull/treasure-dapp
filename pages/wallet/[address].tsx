@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import client from '../../lib/client';
-import { Card, Container, Grid } from '@mantine/core';
+import { Card, Container, Grid, Button } from '@mantine/core';
 
 interface CryptoPunk {
   tokenId: string;
@@ -23,12 +23,18 @@ interface GetInventoryResponse {
 
 const InventoryPage: NextPage = () => {
   const [punks, setPunks] = useState<CryptoPunk[]>([]);
+  const [filteredPunks, setFilteredPunks] = useState<CryptoPunk[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedFilter, setSelectedFilter] = useState<
+    'male' | 'female' | 'all'
+  >('all');
+
   const router = useRouter();
   const walletId = router.query.address as string | undefined;
   const loadingMessage = 'Loading Cryptopunks...';
   const emptyMessage = `No Cryptopunks available for wallet: ${walletId}.`;
   const titleMessage = `Cryptopunks Inventory for ${walletId}:`;
+  const filteredEmptyMessage = 'All Cryptopunks are hidden by filters.';
 
   const isValidETHAddress = (value: string): boolean => {
     return /^(0x)?[0-9a-fA-F]{40}$/.test(value);
@@ -48,9 +54,25 @@ const InventoryPage: NextPage = () => {
     // @ts-ignore GetInventoryResponse type
     client.getInventory(query).then((data: GetInventoryResponse) => {
       setPunks(data.punks);
+      setFilteredPunks(data.punks);
       setLoading(false);
     });
   }, [walletId]);
+
+  useEffect(() => {
+    if (selectedFilter === 'all') {
+      setFilteredPunks(punks);
+    } else {
+      const filtered = punks.filter(punk => {
+        return punk.metadata.traits.some(trait => trait.id === selectedFilter);
+      });
+      setFilteredPunks(filtered);
+    }
+  }, [selectedFilter, punks]);
+
+  const handleFilterChange = (filter: 'male' | 'female' | 'all') => {
+    setSelectedFilter(filter);
+  };
 
   return (
     <Container size="xs" px="xs">
@@ -60,24 +82,49 @@ const InventoryPage: NextPage = () => {
         <p>{emptyMessage}</p>
       ) : (
         <Grid gutter="lg">
+          <div>
+            <Button
+              onClick={() => handleFilterChange('all')}
+              variant={selectedFilter === 'all' ? 'outline' : 'light'}
+            >
+              All
+            </Button>
+            <Button
+              onClick={() => handleFilterChange('male')}
+              variant={selectedFilter === 'male' ? 'outline' : 'light'}
+            >
+              Male
+            </Button>
+            <Button
+              onClick={() => handleFilterChange('female')}
+              variant={selectedFilter === 'female' ? 'outline' : 'light'}
+            >
+              Female
+            </Button>
+            <p>{filteredPunks.length === 0 ? filteredEmptyMessage : ''}</p>
+          </div>
+
           <h2>{titleMessage}</h2>
-          {punks.map(punk => (
-            <Link key={punk.tokenId} href={`/detail/${punk.tokenId}`}>
-              <Card mx="xl">
-                <div
-                  style={{ width: 150 }}
-                  dangerouslySetInnerHTML={{
-                    __html: punk.metadata.svg.replace(
-                      'data:image/svg+xml;utf8,',
-                      ''
-                    ),
-                  }}
-                />
-                {punk.metadata.traits.map(trait => (
-                  <div key={trait.id}>{trait.id}</div>
-                ))}
-              </Card>
-            </Link>
+
+          {filteredPunks.map(punk => (
+            <div key={punk.tokenId}>
+              <Link href={`/detail/${punk.tokenId}`}>
+                <Card mx="xl">
+                  <div
+                    style={{ width: 150 }}
+                    dangerouslySetInnerHTML={{
+                      __html: punk.metadata.svg.replace(
+                        'data:image/svg+xml;utf8,',
+                        ''
+                      ),
+                    }}
+                  />
+                  {punk.metadata.traits.map(trait => (
+                    <div key={trait.id}>{trait.id}</div>
+                  ))}
+                </Card>
+              </Link>
+            </div>
           ))}
         </Grid>
       )}

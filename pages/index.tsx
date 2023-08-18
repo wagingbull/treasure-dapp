@@ -25,7 +25,7 @@ const HomePage: NextPage = () => {
 
       <main className={styles.main}>
         <Link href="/wallet/0x000000000000000000000000000000000000dead">
-          <img src="/favicon.png" />
+          <img src="/favicon.png" alt="Click for example Cryptopunk" />
         </Link>
 
         <AccountForm
