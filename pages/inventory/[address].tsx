@@ -43,9 +43,9 @@ const InventoryPage: NextPage = () => {
 
     setLoading(true);
 
-    fetch(`/api/inventory/${walletId}`)
+    fetch(`/api/inventory?address=${walletId}`)
       .then(response => response.json())
-      .then(data => {
+      .then((data: GetInventoryResponse) => {
         console.log('API response:', data);
         setPunks(data.punks);
         setFilteredPunks(data.punks);
