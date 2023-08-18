@@ -11,7 +11,7 @@ interface DetailPageProps {
 const DetailPage: NextPage<DetailPageProps> = () => {
   const router = useRouter();
   const detailId = Number(router.query.id);
-  const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+  const contractAddress = '16F5A35647D6F03D5D3da7b35409D65ba03aF3B2';
   const loadingMessage = 'Loading Cryptopunk attributes...';
   const titleMessage = `Cryptopunk ${detailId} Attributes:`;
 
