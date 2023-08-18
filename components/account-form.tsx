@@ -5,7 +5,11 @@ interface FormValues {
   address: string;
 }
 
-export function AccountForm() {
+interface AccountFormProps {
+  title: string;
+}
+
+export function AccountForm({ title }: AccountFormProps) {
   const form = useForm({
     initialValues: {
       address: '',
@@ -29,7 +33,7 @@ export function AccountForm() {
 
   return (
     <Box mx="auto">
-      <p>Enter wallet address to view Cryptopunks inventory</p>
+      <p>{title}</p>
       <form onSubmit={form.onSubmit(onSubmitHandler)}>
         <TextInput
           withAsterisk

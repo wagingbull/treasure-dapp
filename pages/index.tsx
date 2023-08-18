@@ -25,19 +25,22 @@ const HomePage: NextPage = () => {
         <h1 className={styles.title}>Cryptopunks Viewer Dapp</h1>
 
         <ConnectButton showBalance={false} />
-        {!isConnected && <div>{address}</div>}
+        {isConnected && <div>{address}</div>}
 
-        {isConnected && (
+        {!isConnected && (
           <div>
             <Center mx="auto">
               <h3>- OR -</h3>
             </Center>
-            <AccountForm />
+            <AccountForm title="Enter wallet address to view Cryptopunks inventory" />
           </div>
         )}
 
         <div className={styles.grid}>
-          <a className={styles.card} href="#">
+          <a
+            className={styles.card}
+            href="/0x0000000000000000000000000000000000000000"
+          >
             <h2>Inventory Page &rarr;</h2>
             <p>
               Allows a user to connect their wallet to the application or
@@ -47,7 +50,7 @@ const HomePage: NextPage = () => {
             </p>
           </a>
 
-          <a className={styles.card} href="#">
+          <a className={styles.card} href="/detail/7755">
             <h2>Details Page &rarr;</h2>
             <p>
               Given a Cryptopunks token ID, the Details Page displays the image
