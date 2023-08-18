@@ -15,6 +15,6 @@ export default async function handler(
   } catch (error) {
     console.log('try error', error);
     console.error('Error fetching inventory:', error);
-    res.status(500).json({ error });
+    res.status(500).json(error);
   }
 }

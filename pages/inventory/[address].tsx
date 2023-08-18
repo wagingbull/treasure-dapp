@@ -25,7 +25,7 @@ const InventoryPage: NextPage = () => {
   >('all');
 
   const router = useRouter();
-  const walletId = router.query.address as string | undefined;
+  const walletId = router.query.address as string;
   const loadingMessage = 'Loading Cryptopunks...';
   const emptyMessage = `No Cryptopunks for wallet: ${walletId}.`;
   const titleMessage = `Cryptopunks Inventory for ${walletId}:`;
@@ -45,7 +45,7 @@ const InventoryPage: NextPage = () => {
 
     fetch(`/api/inventory/${walletId}`)
       .then(response => response.json())
-      .then((data: GetInventoryResponse) => {
+      .then(data => {
         console.log('API response:', data);
         setPunks(data.punks);
         setFilteredPunks(data.punks);
