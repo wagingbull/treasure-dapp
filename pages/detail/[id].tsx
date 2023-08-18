@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useContractRead } from 'wagmi';
 import cryptopunksData from '../../public/abis/cryptopunks.json';
 import { Card, Container } from '@mantine/core';
-import { useEffect } from 'react';
 
 interface DetailPageProps {
   detailId: number;

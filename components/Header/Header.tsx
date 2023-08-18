@@ -21,6 +21,10 @@ export function Header() {
         <Link href="/">
           <h1 className={styles.title}>Cryptopunks Viewer Dapp</h1>
         </Link>
+        <Link href="/wallet/0x000000000000000000000000000000000000dead">
+          Example Inventory
+        </Link>
+        <Link href="/detail/2317">Example Details</Link>
         <div className={styles.rightContent}>
           <ConnectButton showBalance={false} />
         </div>

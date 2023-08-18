@@ -6,22 +6,15 @@ import {
   darkTheme,
 } from '@rainbow-me/rainbowkit';
 import type { AppProps } from 'next/app';
-import {
-  configureChains,
-  createConfig,
-  WagmiConfig,
-  useAccount,
-  useConnect,
-  useContractRead,
-  useContractWrite,
-  useNetwork,
-  useWaitForTransaction,
-} from 'wagmi';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
-import { useState, useEffect } from 'react';
 import { MantineProvider } from '@mantine/core';
 import { Header } from '../components/Header';
+import { AnimatePresence } from 'framer-motion';
+import FadeInAnimation from '../components/FadeInAnimation/FadeInAnimation';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
@@ -42,6 +35,9 @@ const wagmiConfig = createConfig({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  useEffect(() => {}, []);
+
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
@@ -59,8 +55,12 @@ function MyApp({ Component, pageProps }: AppProps) {
             primaryColor: 'violet',
           }}
         >
-          <Header />
-          <Component {...pageProps} />
+          <AnimatePresence mode="wait">
+            <FadeInAnimation key={router.route}>
+              <Header />
+              <Component {...pageProps} />
+            </FadeInAnimation>
+          </AnimatePresence>
         </MantineProvider>
       </RainbowKitProvider>
     </WagmiConfig>
