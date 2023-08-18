@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useContractRead } from 'wagmi';
 import cryptopunksData from '../../public/abis/cryptopunks.json';
-import styles from '../../styles/Home.module.css';
+import { Card, Container } from '@mantine/core';
 
 interface DetailPageProps {
   detailId: number;
@@ -12,6 +12,10 @@ const DetailPage: NextPage<DetailPageProps> = () => {
   const router = useRouter();
   const detailId = Number(router.query.id);
   const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+  const loadingMessage = 'Loading Cryptopunk attributes...';
+  const svgErrorMessage = `Error loading SVG data for Cryptopunk ID: ${detailId}`;
+  const attributesErrorMessage = `Error loading attribute data for Cryptopunk ID: ${detailId}`;
+  const titleMessage = `Cryptopunk ${detailId} Attributes:`;
 
   const {
     data: svgData,
@@ -46,35 +50,32 @@ const DetailPage: NextPage<DetailPageProps> = () => {
       : '';
 
   return (
-    <div className={styles.grid}>
+    <Container size="xs" px="xs">
       {isSvgLoading || isAttributeLoading ? (
-        <div>Loading cryptopunks data...</div>
+        <div>{loadingMessage}</div>
       ) : (
         <>
-          {isSvgError && (
-            <div>Error loading SVG data for Cryptopunk ID: {detailId}</div>
-          )}
-          {isAttributeError && (
-            <div>
-              Error loading attribute data for Cryptopunk ID: {detailId}
-            </div>
-          )}
-          {svgHtml ? (
-            <div
-              style={{ width: 250 }}
-              dangerouslySetInnerHTML={{ __html: svgHtml }}
-            />
-          ) : (
-            ''
-          )}
+          {isSvgError && <div>{svgErrorMessage}</div>}
+          {isAttributeError && <div>{attributesErrorMessage}</div>}
+          {!isAttributeError ||
+            (!isSvgError && (
+              <Card>
+                {svgHtml ? (
+                  <div
+                    style={{ width: 250 }}
+                    dangerouslySetInnerHTML={{ __html: svgHtml }}
+                  />
+                ) : (
+                  ''
+                )}
 
-          <div className={styles.card}>
-            <h2>Cryptopunk {detailId} Attributes:</h2>
-            {renderedAttributes}
-          </div>
+                <h2>{titleMessage}</h2>
+                {renderedAttributes}
+              </Card>
+            ))}
         </>
       )}
-    </div>
+    </Container>
   );
 };
 

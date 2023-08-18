@@ -13,7 +13,7 @@ interface AccountFormProps {
 export function AccountForm({ title, onSubmit }: AccountFormProps) {
   const form = useForm({
     initialValues: {
-      address: '0x0000000000000000000000000000000000000001',
+      address: '0x000000000000000000000000000000000000dead',
     },
 
     validate: {

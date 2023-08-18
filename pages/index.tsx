@@ -24,7 +24,7 @@ const HomePage: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Link href="/wallet/0x0000000000000000000000000000000000000001">
+        <Link href="/wallet/0x000000000000000000000000000000000000dead">
           <img src="/favicon.png" />
         </Link>
 

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import client from '../../lib/client';
-import styles from '../../styles/Home.module.css';
+import { Card, Container, Grid } from '@mantine/core';
 
 interface CryptoPunk {
   tokenId: string;
@@ -26,6 +26,9 @@ const InventoryPage: NextPage = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const walletId = router.query.address as string | undefined;
+  const loadingMessage = 'Loading Cryptopunks...';
+  const emptyMessage = `No Cryptopunks available for wallet: ${walletId}.`;
+  const titleMessage = `Cryptopunks Inventory for ${walletId}:`;
 
   const isValidETHAddress = (value: string): boolean => {
     return /^(0x)?[0-9a-fA-F]{40}$/.test(value);
@@ -50,21 +53,19 @@ const InventoryPage: NextPage = () => {
   }, [walletId]);
 
   return (
-    <div className={styles.grid}>
+    <Container size="xs" px="xs">
       {loading ? (
-        <p>Loading Cryptopunks...</p>
+        <p>{loadingMessage}</p>
       ) : punks.length === 0 ? (
-        <p>No Cryptopunks available for wallet: {walletId}.</p>
+        <p>{emptyMessage}</p>
       ) : (
-        <div>
+        <Grid gutter="lg">
+          <h2>{titleMessage}</h2>
           {punks.map(punk => (
-            <Link
-              key={punk.tokenId}
-              href={`/detail/${punk.tokenId}`}
-              className={styles.card}
-            >
-              <div style={{ width: 150 }}>
+            <Link key={punk.tokenId} href={`/detail/${punk.tokenId}`}>
+              <Card mx="xl">
                 <div
+                  style={{ width: 150 }}
                   dangerouslySetInnerHTML={{
                     __html: punk.metadata.svg.replace(
                       'data:image/svg+xml;utf8,',
@@ -75,12 +76,12 @@ const InventoryPage: NextPage = () => {
                 {punk.metadata.traits.map(trait => (
                   <div key={trait.id}>{trait.id}</div>
                 ))}
-              </div>
+              </Card>
             </Link>
           ))}
-        </div>
+        </Grid>
       )}
-    </div>
+    </Container>
   );
 };
 
