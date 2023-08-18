@@ -4,14 +4,15 @@ import client from '../../../lib/client';
 export default async function handler(
   req: { query: { address: any } },
   res: {
-    status: (arg0: number) => {
-      (): any;
-      new (): any;
-      json: { (arg0: GetInventoryQuery): void; new (): any };
-    };
+    status: (code: number) => any;
+    json: (data: GetInventoryQuery | { error: string }) => any;
   }
 ) {
-  const data = await client.getInventory({ address: req.query.address });
-
-  res.status(200).json(data);
+  try {
+    const data = await client.getInventory({ address: req.query.address });
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Error fetching inventory:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 }
