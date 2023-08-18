@@ -7,15 +7,10 @@ import { useAccount } from 'wagmi';
 import { useState } from 'react';
 import { Center } from '@mantine/core';
 
-const Home: NextPage = () => {
-  const [isFormVisible, setIsFormVisible] = useState(true);
-  const { address } = useAccount({
-    onConnect() {
-      setIsFormVisible(false);
-    },
-    onDisconnect() {
-      setIsFormVisible(true);
-    },
+const HomePage: NextPage = () => {
+  const { address, isConnected } = useAccount({
+    onConnect() {},
+    onDisconnect() {},
   });
 
   return (
@@ -30,9 +25,9 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>Cryptopunks Viewer Dapp</h1>
 
         <ConnectButton showBalance={false} />
-        {!isFormVisible && <div>{address}</div>}
+        {!isConnected && <div>{address}</div>}
 
-        {isFormVisible && (
+        {isConnected && (
           <div>
             <Center mx="auto">
               <h3>- OR -</h3>
@@ -74,4 +69,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default HomePage;
