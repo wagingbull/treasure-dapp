@@ -101,7 +101,11 @@ const InventoryPage: NextPage = () => {
                 >
                   Female
                 </Button>
-                <p>{filteredPunks.length === 0 ? filteredEmptyMessage : ''}</p>
+                <p>
+                  {filteredPunks && filteredPunks.length === 0
+                    ? filteredEmptyMessage
+                    : ''}
+                </p>
               </div>
 
               <h2>{titleMessage}</h2>
