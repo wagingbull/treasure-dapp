@@ -4,24 +4,31 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { AccountForm } from '../components/AccountForm/AccountForm';
 import { useAccount } from 'wagmi';
-import { useState } from 'react';
 import { Center } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
+interface AccountFormValues {
+  address: string;
+}
 const HomePage: NextPage = () => {
+  const [isConnecting, setIsConnecting] = useState(true);
   const router = useRouter();
-  const { address, isConnected } = useAccount({
-    onConnect() {
-      // router.push(`/${address}`);
-      console.log('connected', address);
-    },
-    onDisconnect() {},
-  });
+  const { address, isConnected } = useAccount();
 
-  const handleSubmit = values => {
-    router.push(`/${values.address}`);
+  const handleSubmit = (values: AccountFormValues) => {
+    router.push(`/wallet/${values.address}`);
   };
+
+  useEffect(() => {
+    if (isConnected) {
+      setIsConnecting(false);
+      // router.push(`/wallet/${address}`);
+    } else {
+      setIsConnecting(true);
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -35,9 +42,7 @@ const HomePage: NextPage = () => {
         <h1 className={styles.title}>Cryptopunks Viewer Dapp</h1>
 
         <ConnectButton showBalance={false} />
-        {isConnected && <div>{address}</div>}
-
-        {!isConnected && (
+        {isConnecting ? (
           <div>
             <Center mx="auto">
               <h3>- OR -</h3>
@@ -47,30 +52,35 @@ const HomePage: NextPage = () => {
               onSubmit={handleSubmit}
             />
           </div>
+        ) : (
+          <>
+            {isConnected && <div>{address}</div>}
+
+            <div className={styles.grid}>
+              <Link
+                className={styles.card}
+                href="/wallet/0x0000000000000000000000000000000000000000"
+              >
+                <h2>Inventory Page &rarr;</h2>
+                <p>
+                  Allows a user to connect their wallet to the application or
+                  manually input a wallet address in a text input field Displays
+                  the Cryptopunk token IDs owned by the provided wallet address
+                  Clicking on any of the token IDs directs the user to the
+                  Details Page
+                </p>
+              </Link>
+
+              <Link className={styles.card} href="/detail/7755">
+                <h2>Details Page &rarr;</h2>
+                <p>
+                  Given a Cryptopunks token ID, the Details Page displays the
+                  image and attribute associated with that token.
+                </p>
+              </Link>
+            </div>
+          </>
         )}
-
-        <div className={styles.grid}>
-          <Link
-            className={styles.card}
-            href="/0x0000000000000000000000000000000000000000"
-          >
-            <h2>Inventory Page &rarr;</h2>
-            <p>
-              Allows a user to connect their wallet to the application or
-              manually input a wallet address in a text input field Displays the
-              Cryptopunk token IDs owned by the provided wallet address Clicking
-              on any of the token IDs directs the user to the Details Page
-            </p>
-          </Link>
-
-          <Link className={styles.card} href="/detail/7755">
-            <h2>Details Page &rarr;</h2>
-            <p>
-              Given a Cryptopunks token ID, the Details Page displays the image
-              and attribute associated with that token.
-            </p>
-          </Link>
-        </div>
       </main>
 
       <footer className={styles.footer}>

@@ -19,11 +19,8 @@ export function AccountForm({ title, onSubmit }: AccountFormProps) {
     validate: {
       address: value => {
         const isValidETHAddress = /^(0x)?[0-9a-fA-F]{40}$/.test(value);
-        const isValidENS = /^[a-zA-Z0-9-]+\.eth$/.test(value);
 
-        return isValidETHAddress || isValidENS
-          ? null
-          : 'Invalid Ethereum address or ENS name';
+        return isValidETHAddress ? null : 'Invalid Ethereum address';
       },
     },
   });

@@ -1,28 +1,41 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useContractRead } from 'wagmi';
-import punksABI from './punksABI.json';
+import cryptopunksData from '../../public/abis/cryptopunks.json';
 
-const DetailPage: NextPage = () => {
+interface DetailPageProps {
+  detailId: number;
+}
+
+const DetailPage: NextPage<DetailPageProps> = () => {
   const router = useRouter();
-  const detailId = Number(router.query.id);
+  const detailId = Number(router.query.id) as number;
+  const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
   const { data, isError, isLoading } = useContractRead({
-    address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-    abi: punksABI,
+    address: `0x${contractAddress}`,
+    abi: cryptopunksData,
     functionName: 'punkImageSvg',
     args: [detailId],
   });
 
-  const svgContent = data?.replace('data:image/svg+xml;utf8,', '');
+  const svgHtml =
+    typeof data === 'string'
+      ? data.replace('data:image/svg+xml;utf8,', '')
+      : '';
 
   return (
     <div>
-      <div>hello detail: {detailId}</div>
-      <div
-        style={{ width: 250 }}
-        dangerouslySetInnerHTML={{ __html: svgContent }}
-      />
+      {isLoading && <div>Loading...</div>}
+      {isError && <div>Error loading data for Cryptopunk ID: {detailId}</div>}
+      {svgHtml ? (
+        <div
+          style={{ width: 250 }}
+          dangerouslySetInnerHTML={{ __html: svgHtml }}
+        />
+      ) : (
+        <div>No SVG data available</div>
+      )}
     </div>
   );
 };
