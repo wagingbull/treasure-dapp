@@ -6,6 +6,7 @@ import { AccountForm } from '../components/account-form';
 import { useAccount } from 'wagmi';
 import { useState } from 'react';
 import { Center } from '@mantine/core';
+import Link from 'next/link';
 
 const HomePage: NextPage = () => {
   const { address, isConnected } = useAccount({
@@ -37,7 +38,7 @@ const HomePage: NextPage = () => {
         )}
 
         <div className={styles.grid}>
-          <a
+          <Link
             className={styles.card}
             href="/0x0000000000000000000000000000000000000000"
           >
@@ -48,15 +49,15 @@ const HomePage: NextPage = () => {
               Cryptopunk token IDs owned by the provided wallet address Clicking
               on any of the token IDs directs the user to the Details Page
             </p>
-          </a>
+          </Link>
 
-          <a className={styles.card} href="/detail/7755">
+          <Link className={styles.card} href="/detail/7755">
             <h2>Details Page &rarr;</h2>
             <p>
               Given a Cryptopunks token ID, the Details Page displays the image
               and attribute associated with that token.
             </p>
-          </a>
+          </Link>
         </div>
       </main>
 
