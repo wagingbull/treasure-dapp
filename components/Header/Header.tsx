@@ -9,7 +9,7 @@ export function Header() {
   const router = useRouter();
   const { address } = useAccount({
     onConnect() {
-      router.push(`/wallet/${address}`);
+      router.push(`/inventory/${address}`);
     },
     onDisconnect() {
       router.push(`/`);
@@ -30,7 +30,7 @@ export function Header() {
       </Container>
       <Container size="lg">
         <div className={styles.headerBottom}>
-          <Link href="/wallet/0x000000000000000000000000000000000000dead">
+          <Link href="/inventory/0x000000000000000000000000000000000000dead">
             <p className={styles.link}>Example Inventory</p>
           </Link>
           <Link href="/detail/2317">

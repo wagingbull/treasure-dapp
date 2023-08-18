@@ -11,7 +11,7 @@ interface DetailPageProps {
 const DetailPage: NextPage<DetailPageProps> = () => {
   const router = useRouter();
   const detailId = Number(router.query.id);
-  const contractAddress = '16F5A35647D6F03D5D3da7b35409D65ba03aF3B2';
+  const cryptopunksContractAddress = '16F5A35647D6F03D5D3da7b35409D65ba03aF3B2';
   const loadingMessage = 'Loading Cryptopunk attributes...';
   const titleMessage = `Cryptopunk ${detailId} Attributes:`;
 
@@ -20,7 +20,7 @@ const DetailPage: NextPage<DetailPageProps> = () => {
     isError: isSvgError,
     isLoading: isSvgLoading,
   } = useContractRead({
-    address: `0x${contractAddress}`,
+    address: `0x${cryptopunksContractAddress}`,
     abi: cryptopunksData,
     functionName: 'punkImageSvg',
     args: [detailId],
@@ -31,7 +31,7 @@ const DetailPage: NextPage<DetailPageProps> = () => {
     isError: isAttributeError,
     isLoading: isAttributeLoading,
   } = useContractRead({
-    address: `0x${contractAddress}`,
+    address: `0x${cryptopunksContractAddress}`,
     abi: cryptopunksData,
     functionName: 'punkAttributes',
     args: [detailId],

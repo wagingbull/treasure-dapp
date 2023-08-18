@@ -12,7 +12,7 @@ const HomePage: NextPage = () => {
   const router = useRouter();
 
   const handleSubmit = (values: AccountFormValues) => {
-    router.push(`/wallet/${values.address}`);
+    router.push(`/inventory/${values.address}`);
   };
 
   return (
@@ -24,7 +24,7 @@ const HomePage: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Link href="/wallet/0x000000000000000000000000000000000000dead">
+        <Link href="/inventory/0x000000000000000000000000000000000000dead">
           <img src="/favicon.png" alt="Click for example Cryptopunk" />
         </Link>
 

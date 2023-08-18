@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import client from '../../lib/client';
 import { Card, Container, Grid, Button } from '@mantine/core';
 
 interface CryptoPunk {
@@ -11,10 +10,6 @@ interface CryptoPunk {
     svg: string;
     traits: { id: string }[];
   };
-}
-
-interface GetInventoryQuery {
-  address: string;
 }
 
 interface GetInventoryResponse {
@@ -32,7 +27,7 @@ const InventoryPage: NextPage = () => {
   const router = useRouter();
   const walletId = router.query.address as string | undefined;
   const loadingMessage = 'Loading Cryptopunks...';
-  const emptyMessage = `Error fetching Cryptopunks for wallet: ${walletId}.`;
+  const emptyMessage = `No Cryptopunks for wallet: ${walletId}.`;
   const titleMessage = `Cryptopunks Inventory for ${walletId}:`;
   const filteredEmptyMessage = 'All Cryptopunks are hidden by filters.';
 
@@ -47,13 +42,11 @@ const InventoryPage: NextPage = () => {
     }
 
     setLoading(true);
-    const query: GetInventoryQuery = {
-      address: walletId,
-    };
 
-    client
-      .getInventory(query)
-      // @ts-ignore GetInventoryResponse type
+    fetch(`/api/inventory/${walletId}`)
+      .then(response => {
+        return response.json();
+      })
       .then((data: GetInventoryResponse) => {
         setPunks(data.punks);
         setFilteredPunks(data.punks);
