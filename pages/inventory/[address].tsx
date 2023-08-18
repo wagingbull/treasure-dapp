@@ -43,7 +43,7 @@ const InventoryPage: NextPage = () => {
 
     setLoading(true);
 
-    fetch(`/api/inventory?address=${walletId}`)
+    fetch(`/api/inventory/${walletId}`)
       .then(response => response.json())
       .then((data: GetInventoryResponse) => {
         console.log('API response:', data);
