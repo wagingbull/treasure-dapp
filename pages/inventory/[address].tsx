@@ -101,35 +101,34 @@ const InventoryPage: NextPage = () => {
                 >
                   Female
                 </Button>
-                <p>
-                  {filteredPunks && filteredPunks.length === 0
-                    ? filteredEmptyMessage
-                    : ''}
-                </p>
               </div>
 
               <h2>{titleMessage}</h2>
 
-              {filteredPunks.map(punk => (
-                <div key={punk.tokenId}>
-                  <Link href={`/detail/${punk.tokenId}`}>
-                    <Card mx="xl">
-                      <div
-                        style={{ width: 150 }}
-                        dangerouslySetInnerHTML={{
-                          __html: punk.metadata.svg.replace(
-                            'data:image/svg+xml;utf8,',
-                            ''
-                          ),
-                        }}
-                      />
-                      {punk.metadata.traits.map(trait => (
-                        <div key={trait.id}>{trait.id}</div>
-                      ))}
-                    </Card>
-                  </Link>
-                </div>
-              ))}
+              {filteredPunks && filteredPunks.length > 0 ? (
+                filteredPunks.map(punk => (
+                  <div key={punk.tokenId}>
+                    <Link href={`/detail/${punk.tokenId}`}>
+                      <Card mx="xl">
+                        <div
+                          style={{ width: 150 }}
+                          dangerouslySetInnerHTML={{
+                            __html: punk.metadata.svg.replace(
+                              'data:image/svg+xml;utf8,',
+                              ''
+                            ),
+                          }}
+                        />
+                        {punk.metadata.traits.map(trait => (
+                          <div key={trait.id}>{trait.id}</div>
+                        ))}
+                      </Card>
+                    </Link>
+                  </div>
+                ))
+              ) : (
+                <p>{filteredEmptyMessage}</p>
+              )}
             </Grid>
           )}
         </>
